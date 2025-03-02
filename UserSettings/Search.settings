@@ -9,7 +9,7 @@ onBoardingDoNotAskAgain = true
 showPackageIndexes = false
 showStatusBar = false
 scopes = {
-	"last_search.66F56946" = "prefab"
+	"last_search.66F56946" = "Audio Listener"
 	"OpenInspectorPreview.66F56946" = "0"
 	"currentGroup.66F56946" = null
 	"picker_window_position_offset.075BCD15" = "36,80005;227,2;320;550,4"
@@ -72,8 +72,9 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
-	"prefab"
+	"Audio Listener"
 	""
+	"prefab"
 ]
 searchItemFavorites = [
 ]

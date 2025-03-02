@@ -34,7 +34,8 @@ public class CarController : MonoBehaviour
  
     [SerializeField] private float _force;
     private float _vol_for_cal;
-    private bool isCalculating = true;
+    public bool isCalculating = true;
+    public bool isRunning = false;
     private float timer = 0f;
     private List<float> values = new List<float>();
 
@@ -55,8 +56,8 @@ public class CarController : MonoBehaviour
         }
     }
     private void FixedUpdate(){
-        Move();
         CalculateAverageOverTime();
+        
 
     }
  
@@ -64,8 +65,8 @@ public class CarController : MonoBehaviour
     {
         _speed = _rb.linearVelocity.magnitude;
         
-        _colliderFL.motorTorque = /*Input.GetAxis("Vertical") * */_force;
-        _colliderFR.motorTorque = /*Input.GetAxis("Vertical") * */_force;
+        _colliderFL.motorTorque = /*Input.GetAxis("Vertical") * */_force * _force;
+        _colliderFR.motorTorque = /*Input.GetAxis("Vertical") * */_force * _force;
 
  
         if (Input.GetKey(KeyCode.Space))
@@ -172,32 +173,29 @@ public class CarController : MonoBehaviour
             {
                 _vol_for_cal = GetVolumeFromMicrophone();
                 values.Add(_vol_for_cal);
-                _colliderFL.brakeTorque = 50000f;
-                _colliderFR.brakeTorque = 50000f;
-                _colliderBL.brakeTorque = 50000f;
-                _colliderBR.brakeTorque = 50000f;
                 //Debug.Log(values);
 
             }
             else
             {
+                isRunning = true;
                 isCalculating = false;
                 float sum = 0f;
                 foreach (float value in values){
                     sum += value;
                 }
                 average = sum / values.Count * _rb.mass * sensitivity;
-                _colliderFL.brakeTorque = 0f;
-                _colliderFR.brakeTorque = 0f;
-                _colliderBL.brakeTorque = 0f;
-                _colliderBR.brakeTorque = 0f;
                 Debug.Log("average:" + average);
                 
             }
         }
         _force = GetVolumeFromMicrophone() * sensitivity * _rb.mass - average;
-        Debug.Log(_force);
-        Move();
+        //Debug.Log(_force);
+        if(isRunning == true){
+            Move();
+        }
+
+        
     }
 
 }
